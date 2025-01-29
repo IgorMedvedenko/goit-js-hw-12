@@ -12,17 +12,23 @@ export function clearGallery() {
 
 export function renderImages(images) {
   const gallery = document.querySelector('.gallery');
+  const loadMoreBtn = document.querySelector('.load-more');
+  const loaderContainer = document.querySelector('.loader-container');
 
-  if (images.length === 0) {
+  loaderContainer.style.display = 'none';
+  loadMoreBtn.style.display = 'none';
+
+  if (images.hits.length === 0) {
     iziToast.error({
       title: 'Error',
       message:
         'Sorry, there are no images matching your search query. Please try again!',
     });
-    return;
+
+    return false;
   }
 
-  const imageMarkup = images
+  const imageMarkup = images.hits
     .map(
       image => `
     <a href="${image.largeImageURL}" class="gallery-link">
@@ -49,14 +55,23 @@ export function renderImages(images) {
     captionsData: 'alt',
     captionDelay: 250,
   });
+
+  if (images.totalHits > images.hits.length) {
+    loadMoreBtn.style.display = 'block';
+  } else {
+    loadMoreBtn.style.display = 'none';
+    iziToast.info({
+      title: 'Info',
+      message: "We're sorry, but you've reached the end of search results.",
+    });
+  }
 }
 
 export function showLoader() {
-  const loader = document.querySelector('.loader');
-  loader.style.display = 'block';
+  const loaderContainer = document.querySelector('.loader-container');
+  loaderContainer.style.display = 'block';
 }
-
 export function hideLoader() {
-  const loader = document.querySelector('.loader');
-  loader.style.display = 'none';
+  const loaderContainer = document.querySelector('.loader-container');
+  loaderContainer.style.display = 'none';
 }
