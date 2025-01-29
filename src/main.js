@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   searchForm.addEventListener('submit', async event => {
     event.preventDefault();
 
-    // const searchInput = event.target.elements.searchInput;
+    const searchInput = event.target.elements.searchInput;
     const query = searchInput.value.trim();
 
     if (!query) {
