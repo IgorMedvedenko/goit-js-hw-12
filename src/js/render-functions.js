@@ -13,9 +13,9 @@ export function clearGallery() {
 export function renderImages(images) {
   const gallery = document.querySelector('.gallery');
   const loadMoreBtn = document.querySelector('.load-more');
-  const loaderContainer = document.querySelector('.loader-container');
+  const loader = document.querySelector('.loader');
 
-  loaderContainer.style.display = 'none';
+  loader.style.display = 'none';
   loadMoreBtn.style.display = 'none';
 
   if (images.hits.length === 0) {
@@ -68,10 +68,10 @@ export function renderImages(images) {
 }
 
 export function showLoader() {
-  const loaderContainer = document.querySelector('.loader-container');
-  loaderContainer.style.display = 'block';
+  const loader = document.querySelector('.loader');
+  loader.style.display = 'block';
 }
 export function hideLoader() {
-  const loaderContainer = document.querySelector('.loader-container');
-  loaderContainer.style.display = 'none';
+  const loader = document.querySelector('.loader');
+  loader.style.display = 'none';
 }

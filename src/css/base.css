@@ -115,13 +115,6 @@ body {
   color: #666;
 }
 
-.loader-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  display: none;
-}
-
 .loader {
   width: 48px;
   height: 48px;
