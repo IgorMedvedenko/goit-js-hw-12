@@ -6,8 +6,12 @@ import {
   hideLoader,
 } from './js/render-functions.js';
 
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+
 let currentQuery = '';
 let currentPage = 1;
+const perPage = 15;
 
 document.addEventListener('DOMContentLoaded', () => {
   const searchForm = document.querySelector('.search-form');
@@ -25,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   searchForm.addEventListener('submit', async event => {
     event.preventDefault();
 
-    const searchInput = event.target.elements.searchInput;
     const query = searchInput.value.trim();
 
     if (!query) {
@@ -44,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMoreBtn.style.display = 'none';
 
     try {
-      const images = await searchImages(query, currentPage);
-      const hasImages = renderImages(images);
+      const images = await searchImages(query, currentPage, perPage);
+      const hasImages = renderImages(images, currentPage, perPage);
 
-      if (hasImages) {
+      if (hasImages && images.hits.length === perPage) {
         loadMoreBtn.style.display = 'block';
       }
     } catch (error) {
@@ -68,10 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     showLoader();
 
     try {
-      const images = await searchImages(currentQuery, currentPage);
-      const hasImages = renderImages(images);
+      const images = await searchImages(currentQuery, currentPage, perPage);
+      const hasImages = renderImages(images, currentPage, perPage);
 
-      if (hasImages) {
+      if (hasImages && images.hits.length === perPage) {
         const galleryItem = document.querySelector('.gallery-item');
         if (galleryItem) {
           const cardHeight = galleryItem.getBoundingClientRect().height;
@@ -80,6 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth',
           });
         }
+      } else {
+        loadMoreBtn.style.display = 'none';
       }
     } catch (error) {
       console.error('Load more error:', error);

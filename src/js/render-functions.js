@@ -10,7 +10,7 @@ export function clearGallery() {
   gallery.innerHTML = '';
 }
 
-export function renderImages(images) {
+export function renderImages(images, currentPage, perPage) {
   const gallery = document.querySelector('.gallery');
   const loadMoreBtn = document.querySelector('.load-more');
   const loader = document.querySelector('.loader');
@@ -56,15 +56,18 @@ export function renderImages(images) {
     captionDelay: 250,
   });
 
-  if (images.totalHits > images.hits.length) {
+  const totalPages = Math.ceil(images.totalHits / perPage);
+
+  if (currentPage < totalPages) {
     loadMoreBtn.style.display = 'block';
-  } else {
+  } else if (images.hits.length < perPage || currentPage >= totalPages) {
     loadMoreBtn.style.display = 'none';
     iziToast.info({
       title: 'Info',
       message: "We're sorry, but you've reached the end of search results.",
     });
   }
+  return true;
 }
 
 export function showLoader() {
